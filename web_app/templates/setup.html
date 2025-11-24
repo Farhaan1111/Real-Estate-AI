@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Setup - Real Estate AI{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <div class="chat-avatar mx-auto mb-3">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h1 class="text-gradient">System Setup</h1>
+                <p class="text-muted">Initialize the AI system and load RERA project data</p>
+            </div>
+
+            <!-- Setup Card -->
+            <div class="card-dark">
+                <div class="card-header-dark">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cogs me-2"></i>AI System Setup
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if system_ready %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <strong>System is ready!</strong> The AI system has been initialized and is ready to use.
+                    </div>
+                    <div class="text-center">
+                        <a href="{{ url_for('chat') }}" class="btn btn-primary-modern me-2">
+                            <i class="fas fa-robot me-1"></i> Start AI Chat
+                        </a>
+                        <a href="{{ url_for('search') }}" class="btn btn-outline-modern">
+                            <i class="fas fa-search me-1"></i> Advanced Search
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Setup Required</strong> The AI system needs to be initialized before use.
+                    </div>
+                    
+                    <div class="setup-steps mb-4">
+                        <h6 class="text-primary mb-3">Setup Process:</h6>
+                        <ol class="text-light">
+                            <li class="mb-2">Load RERA project data from database</li>
+                            <li class="mb-2">Initialize vector embeddings</li>
+                            <li class="mb-2">Set up search indexes</li>
+                            <li class="mb-2">Initialize AI models</li>
+                            <li class="mb-2">Configure map visualization</li>
+                        </ol>
+                    </div>
+
+                    <div class="text-center">
+                        <button id="setupBtn" class="btn btn-primary-modern btn-lg">
+                            <i class="fas fa-play me-2"></i>Start Setup Process
+                        </button>
+                    </div>
+
+                    <div id="setupProgress" class="mt-4" style="display: none;">
+                        <div class="progress mb-3" style="height: 8px;">
+                            <div id="setupProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <div id="setupStatus" class="text-center text-muted">
+                            Initializing setup...
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- System Information -->
+            <div class="card-dark mt-4">
+                <div class="card-header-dark">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>System Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong class="text-primary">AI System:</strong> 
+                            <span class="text-light">{{ "Ready" if system_ready else "Not Ready" }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong class="text-primary">Maps:</strong> 
+                            <span class="text-light">{{ "Available" if maps_available else "Unavailable" }}</span>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <strong class="text-primary">Vector Database:</strong> 
+                            <span class="text-light">FAISS</span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong class="text-primary">Search Engine:</strong> 
+                            <span class="text-light">BM25 + Semantic</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const setupBtn = document.getElementById('setupBtn');
+    const setupProgress = document.getElementById('setupProgress');
+    const setupProgressBar = document.getElementById('setupProgressBar');
+    const setupStatus = document.getElementById('setupStatus');
+
+    if (setupBtn) {
+        setupBtn.addEventListener('click', function() {
+            // Disable button and show progress
+            setupBtn.disabled = true;
+            setupBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Setting Up...';
+            setupProgress.style.display = 'block';
+
+            // Simulate progress updates
+            simulateSetupProgress();
+        });
+    }
+
+    function simulateSetupProgress() {
+        let progress = 0;
+        const steps = [
+            "Loading RERA project data...",
+            "Initializing vector embeddings...",
+            "Setting up search indexes...",
+            "Initializing AI models...",
+            "Configuring map visualization...",
+            "Finalizing setup..."
+        ];
+
+        const interval = setInterval(() => {
+            progress += 16.6; // Approximately 6 steps to 100%
+            setupProgressBar.style.width = `${Math.min(progress, 100)}%`;
+            setupStatus.textContent = steps[Math.floor(progress / 16.6)] || "Completing setup...";
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    // Actually trigger the setup
+                    performActualSetup();
+                }, 1000);
+            }
+        }, 800);
+    }
+
+    function performActualSetup() {
+        fetch('/setup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                setupStatus.innerHTML = `<span class="text-success"><i class="fas fa-check me-1"></i>${data.message}</span>`;
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                setupStatus.innerHTML = `<span class="text-danger"><i class="fas fa-times me-1"></i>${data.message}</span>`;
+                setupBtn.disabled = false;
+                setupBtn.innerHTML = '<i class="fas fa-play me-2"></i>Retry Setup';
+            }
+        })
+        .catch(error => {
+            setupStatus.innerHTML = `<span class="text-danger"><i class="fas fa-times me-1"></i>Setup failed: ${error}</span>`;
+            setupBtn.disabled = false;
+            setupBtn.innerHTML = '<i class="fas fa-play me-2"></i>Retry Setup';
+        });
+    }
+});
+</script>
+{% endblock %}s

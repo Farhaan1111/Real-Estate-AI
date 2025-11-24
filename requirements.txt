@@ -1,0 +1,19 @@
+# Core Data Science
+numpy>=1.24.3
+pandas>=2.1.3
+scikit-learn>=1.3.0
+pyyaml>=6.0.1
+tqdm>=4.66.1
+
+# Machine Learning & Embeddings
+torch>=2.1.0
+transformers>=4.35.0
+sentence-transformers>=2.2.2
+faiss-cpu>=1.7.4
+
+# Text Processing & BM25
+nltk>=3.8.1
+rank-bm25>=0.2.1
+
+# Utilities
+python-dotenv>=1.0.0

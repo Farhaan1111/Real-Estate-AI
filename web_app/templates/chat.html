@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block title %}AI Chat - Real Estate AI{% endblock %}
+
+{% block extra_css %}
+<style>
+    .chat-wrapper {
+        min-height: calc(100vh - 200px);
+        background: var(--bg-primary);
+    }
+    
+    .chat-sidebar {
+        background: var(--bg-secondary);
+        border-right: 1px solid var(--border-primary);
+        height: 100%;
+    }
+    
+    .conversation-item {
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-primary);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .conversation-item:hover {
+        background: var(--bg-tertiary);
+    }
+    
+    .conversation-item.active {
+        background: var(--bg-tertiary);
+        border-left: 3px solid var(--primary);
+    }
+    
+    .message-form {
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="chat-wrapper">
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-xl-2 d-none d-lg-block chat-sidebar">
+                <div class="p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="text-primary mb-0">Conversations</h5>
+                        <button class="btn btn-sm btn-outline-modern" id="newChatBtn">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="quick-actions-modern mb-4">
+                        <h6 class="text-muted mb-2">Quick Questions</h6>
+                        <button class="quick-action-modern" data-question="Show me projects in Pune">
+                            <i class="fas fa-building me-1"></i>Pune Projects
+                        </button>
+                        <button class="quick-action-modern" data-question="List residential projects">
+                            <i class="fas fa-home me-1"></i>Residential
+                        </button>
+                        <button class="quick-action-modern" data-question="Projects with 2BHK apartments">
+                            <i class="fas fa-bed me-1"></i>2BHK Projects
+                        </button>
+                        <button class="quick-action-modern" data-question="Recent registrations">
+                            <i class="fas fa-calendar-plus me-1"></i>New Projects
+                        </button>
+                    </div>
+                    
+                    <div class="conversation-list">
+                        <div class="conversation-item active">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">Current Session</h6>
+                                    <small class="text-muted">Just now</small>
+                                </div>
+                                <span class="badge bg-primary">Live</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Chat Area -->
+            <div class="col-lg-9 col-xl-10">
+                <div class="d-flex flex-column h-100">
+                    <!-- Chat Header -->
+                    <div class="chat-header">
+                        <div class="d-flex align-items-center">
+                            <div class="chat-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h4 class="mb-0">Real Estate AI Assistant</h4>
+                                <small class="text-muted">RERA Project Specialist - Ready to help</small>
+                            </div>
+                        </div>
+                        <div class="chat-actions">
+                            <button id="toggleAnalytics" class="btn btn-outline-modern btn-sm">
+                                <i class="fas fa-chart-bar me-1"></i>Analytics
+                            </button>
+                            <button id="clearHistory" class="btn btn-outline-modern btn-sm">
+                                <i class="fas fa-trash me-1"></i>Clear Chat
+                            </button>
+                            <div class="system-status ms-3">
+                                <i class="fas fa-circle text-success me-1"></i>
+                                <small class="text-muted">System Online</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages -->
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Welcome Message -->
+                        <div class="message ai-message">
+                            <div class="message-content">
+                                <p>Hello! I'm your Real Estate AI assistant. I can help you find detailed information about RERA projects, building specifications, locations, timelines, and more.</p>
+                                <p>How can I assist you today?</p>
+                            </div>
+                            <div class="message-time">Just now</div>
+                        </div>
+                    </div>
+
+                    <!-- Typing Indicator -->
+                    <div class="typing-indicator" id="typingIndicator">
+                        <div class="message ai-message">
+                            <div class="typing-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input-container">
+                        <form id="chatForm" class="message-form">
+                            <div class="input-group">
+                                <textarea 
+                                    id="queryInput" 
+                                    class="form-control search-input-modern" 
+                                    placeholder="Ask about RERA projects, building specifications, locations, timelines..." 
+                                    rows="1"
+                                    style="resize: none;"
+                                ></textarea>
+                                <button type="submit" class="btn btn-primary-modern" id="sendButton">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            <div class="quick-actions mt-3">
+                                <small class="text-muted me-2">Try asking:</small>
+                                <button type="button" class="quick-action" data-question="Show me residential projects in Mumbai">
+                                    Mumbai Projects
+                                </button>
+                                <button type="button" class="quick-action" data-question="How many floors in UNNATHI WOODS">
+                                    Building Details
+                                </button>
+                                <button type="button" class="quick-action" data-question="Projects completed in 2024">
+                                    Completion Dates
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Panel -->
+    <div class="analytics-panel card-dark mt-4" id="analyticsPanel" style="display: none;">
+        <div class="card-header-dark">
+            <h5 class="mb-0">
+                <i class="fas fa-chart-line me-2"></i>Retrieval Analytics
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <span class="stat-number" id="documentsCount">0</span>
+                        <span class="stat-label">Documents Used</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <span class="stat-number" id="responseTime">0</span>
+                        <span class="stat-label">Response Time (ms)</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <span class="stat-number" id="messageCount">0</span>
+                        <span class="stat-label">Messages</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <span class="stat-number" id="ragScore">0</span>
+                        <span class="stat-label">RAG Score</span>
+                    </div>
+                </div>
+            </div>
+            <div id="analyticsDetails">
+                <div class="alert alert-info mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Send a message to see detailed analytics...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-resize textarea
+    const textarea = document.getElementById('queryInput');
+    textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+
+    // Quick action buttons
+    document.querySelectorAll('.quick-action, .quick-action-modern').forEach(button => {
+        button.addEventListener('click', function() {
+            const question = this.getAttribute('data-question');
+            document.getElementById('queryInput').value = question;
+            document.getElementById('queryInput').focus();
+            
+            // Trigger input event for auto-resize
+            const event = new Event('input');
+            document.getElementById('queryInput').dispatchEvent(event);
+        });
+    });
+
+    // Toggle analytics panel
+    document.getElementById('toggleAnalytics').addEventListener('click', function() {
+        const panel = document.getElementById('analyticsPanel');
+        if (panel.style.display === 'none') {
+            panel.style.display = 'block';
+            this.innerHTML = '<i class="fas fa-chart-bar me-1"></i>Hide Analytics';
+            this.classList.add('btn-primary-modern');
+            this.classList.remove('btn-outline-modern');
+        } else {
+            panel.style.display = 'none';
+            this.innerHTML = '<i class="fas fa-chart-bar me-1"></i>Analytics';
+            this.classList.remove('btn-primary-modern');
+            this.classList.add('btn-outline-modern');
+        }
+    });
+
+    // New chat button
+    document.getElementById('newChatBtn').addEventListener('click', function() {
+        if (confirm('Start a new conversation? Current chat will be cleared.')) {
+            document.getElementById('chatMessages').innerHTML = `
+                <div class="message ai-message">
+                    <div class="message-content">
+                        <p>Hello! I'm your Real Estate AI assistant. How can I help you today?</p>
+                    </div>
+                    <div class="message-time">Just now</div>
+                </div>
+            `;
+        }
+    });
+
+    // Add pulse animation to send button when input has text
+    const input = document.getElementById('queryInput');
+    const sendButton = document.getElementById('sendButton');
+    input.addEventListener('input', function() {
+        if (this.value.trim()) {
+            sendButton.classList.add('pulse');
+        } else {
+            sendButton.classList.remove('pulse');
+        }
+    });
+
+    // Add floating animation to quick questions
+    document.querySelectorAll('.quick-action').forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+            this.classList.add('floating');
+        });
+        btn.addEventListener('mouseleave', function() {
+            this.classList.remove('floating');
+        });
+    });
+});
+</script>
+{% endblock %}

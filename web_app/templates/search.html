@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}Advanced Search - Real Estate AI{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Header -->
+            <div class="d-flex align-items-center mb-4">
+                <div class="chat-avatar me-3">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div>
+                    <h2 class="text-gradient mb-1">Advanced Search</h2>
+                    <p class="text-muted mb-0">Search through RERA projects with advanced filters and criteria</p>
+                </div>
+            </div>
+
+            <!-- Search Form -->
+            <div class="card-dark mb-4">
+                <div class="card-header-dark">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter me-2"></i>Search Filters
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="searchForm">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label for="searchQuery" class="form-label text-primary">Search Query</label>
+                                    <input type="text" class="form-control search-input" id="searchQuery" 
+                                           placeholder="Enter project name, location, promoter, or any details...">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label text-primary">Search Type</label>
+                                    <select class="form-select search-input" id="searchType">
+                                        <option value="hybrid">Hybrid Search (Recommended)</option>
+                                        <option value="semantic">Semantic Search</option>
+                                        <option value="keyword">Keyword Search</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label text-primary">Project Type</label>
+                                    <select class="form-select search-input" id="projectType">
+                                        <option value="">All Types</option>
+                                        <option value="residential">Residential</option>
+                                        <option value="commercial">Commercial</option>
+                                        <option value="mixed">Mixed Use</option>
+                                        <option value="industrial">Industrial</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label text-primary">Location</label>
+                                    <input type="text" class="form-control search-input" id="location" 
+                                           placeholder="District, Taluka, Village...">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label text-primary">Project Status</label>
+                                    <select class="form-select search-input" id="projectStatus">
+                                        <option value="">All Status</option>
+                                        <option value="under construction">Under Construction</option>
+                                        <option value="completed">Completed</option>
+                                        <option value="new">New Launch</option>
+                                        <option value="registered">Registered</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label text-primary">Min Units</label>
+                                    <input type="number" class="form-control search-input" id="minUnits" 
+                                           placeholder="0" min="0">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label text-primary">Max Units</label>
+                                    <input type="number" class="form-control search-input" id="maxUnits" 
+                                           placeholder="1000" min="1">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label text-primary">Completion Year</label>
+                                    <select class="form-select search-input" id="completionYear">
+                                        <option value="">Any Year</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label text-primary">Promoter</label>
+                                    <input type="text" class="form-control search-input" id="promoter" 
+                                           placeholder="Promoter name...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button type="submit" class="btn btn-primary-modern">
+                                <i class="fas fa-search me-2"></i>Search RERA Database
+                            </button>
+                            <button type="button" class="btn btn-outline-modern" id="resetFilters">
+                                <i class="fas fa-redo me-2"></i>Reset Filters
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Quick Search Actions -->
+            <div class="card-dark mb-4">
+                <div class="card-body">
+                    <h6 class="text-primary mb-3">
+                        <i class="fas fa-bolt me-2"></i>Quick Searches
+                    </h6>
+                    <div class="quick-actions">
+                        <button class="quick-action search-example" data-query="residential projects in Mumbai">
+                            <i class="fas fa-building me-1"></i>Mumbai Residential
+                        </button>
+                        <button class="quick-action search-example" data-query="UNNATHI ESTATES projects">
+                            <i class="fas fa-city me-1"></i>UNNATHI Projects
+                        </button>
+                        <button class="quick-action search-example" data-query="projects completed in 2024">
+                            <i class="fas fa-calendar-check me-1"></i>2024 Completion
+                        </button>
+                        <button class="quick-action search-example" data-query="2BHK apartments">
+                            <i class="fas fa-bed me-1"></i>2BHK Apartments
+                        </button>
+                        <button class="quick-action search-example" data-query="commercial projects Pune">
+                            <i class="fas fa-store me-1"></i>Pune Commercial
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Results -->
+<div id="searchResults">
+    <div class="card-dark">
+        <div class="card-body text-center py-5">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">Enter your search criteria to find RERA projects</h5>
+            <p class="text-muted">Use the filters above to narrow down your search results</p>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Quick search examples
+    document.querySelectorAll('.search-example').forEach(button => {
+        button.addEventListener('click', function() {
+            const query = this.getAttribute('data-query');
+            document.getElementById('searchQuery').value = query;
+            // Trigger search
+            document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+        });
+    });
+
+    // Reset filters
+    document.getElementById('resetFilters').addEventListener('click', function() {
+        document.getElementById('searchForm').reset();
+        document.getElementById('searchResults').innerHTML = `
+            <div class="card-dark">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Enter your search criteria to find RERA projects</h5>
+                    <p class="text-muted">Use the filters above to narrow down your search results</p>
+                </div>
+            </div>
+        `;
+    });
+
+    // Enhanced search input
+    const searchInput = document.getElementById('searchQuery');
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+        }
+    });
+});
+</script>
+{% endblock %}

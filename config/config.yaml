@@ -1,0 +1,58 @@
+data:
+  raw_path: "data/raw/"
+  processed_path: "data/processed/"
+  external_path: "data/external/"
+  jsonl_file: "data/raw/sample_rera_projects.jsonl"
+
+embedding:
+  model_name: "sentence-transformers/all-mpnet-base-v2"
+  vector_store_path: "models/vector_store.faiss"
+
+adaptive_rag:
+  routing_threshold: 0.5
+  max_tokens: 1500
+  temperature: 0.1
+  fusion_method: "weighted"
+  dense_weight: 0.6
+  sparse_weight: 0.4
+
+models:
+  llm: "openrouter"  # or "ollama", "huggingface", "openai"
+  embedding: "local"
+
+retrieval:
+  max_dense_results: 15
+  max_sparse_results: 15
+  final_top_k: 8
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+evaluation:
+  metrics_file: "evaluation/metrics.json"
+  test_dataset: "evaluation/test_questions.json"
+  evaluation_interval: 24  # hours
+  live_monitoring: true
+  
+  thresholds:
+    min_rouge1: 0.3
+    min_retrieval_precision: 0.6
+    max_response_time: 5.0  # seconds
+    
+  metrics:
+    retrieval:
+      - mrr
+      - precision@5
+      - recall@10
+      - ndcg@10
+    generation:
+      - rouge1
+      - rouge2
+      - rougeL
+      - bertscore_f1
+      - semantic_similarity
+    performance:
+      - avg_response_time
+      - p95_response_time
+      - throughput

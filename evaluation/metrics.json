@@ -1,0 +1,56 @@
+[
+  {
+    "timestamp": "2025-11-18T13:17:32.679784",
+    "overall_score": 0.6361332917944856,
+    "retrieval_metrics": {
+      "retrieval_score_mean": 0.3001889960614642,
+      "retrieval_score_std": 0.38362528567325227,
+      "retrieval_success_rate": 0.4,
+      "avg_docs_per_query": 1.0,
+      "empty_retrievals": 0.6
+    },
+    "response_metrics": {
+      "response_quality_mean": 0.9517809924674896,
+      "response_relevance_mean": 1.0,
+      "response_length_mean": 469.3,
+      "empty_responses": 0.0,
+      "high_quality_responses": 1.0
+    },
+    "performance_metrics": {
+      "avg_processing_time": 3.2327351808547973,
+      "p95_processing_time": 8.93370940685271,
+      "min_processing_time": 1.4274451732635498,
+      "max_processing_time": 13.623552083969116,
+      "queries_per_minute": 18.56013457438071
+    },
+    "test_queries_processed": 10,
+    "successful_queries": 10
+  },
+  {
+    "timestamp": "2025-11-18T21:28:45.435185",
+    "overall_score": 0.6401341882340063,
+    "retrieval_metrics": {
+      "retrieval_score_mean": 0.3001889960614642,
+      "retrieval_score_std": 0.38362528567325227,
+      "retrieval_success_rate": 0.4,
+      "avg_docs_per_query": 1.0,
+      "empty_retrievals": 0.6
+    },
+    "response_metrics": {
+      "response_quality_mean": 0.9750018057060311,
+      "response_relevance_mean": 1.0,
+      "response_length_mean": 411.7,
+      "empty_responses": 0.0,
+      "high_quality_responses": 1.0
+    },
+    "performance_metrics": {
+      "avg_processing_time": 3.4971066236495973,
+      "p95_processing_time": 9.79865663051604,
+      "min_processing_time": 1.6370134353637695,
+      "max_processing_time": 14.801366329193115,
+      "queries_per_minute": 17.157040507213278
+    },
+    "test_queries_processed": 10,
+    "successful_queries": 10
+  }
+]

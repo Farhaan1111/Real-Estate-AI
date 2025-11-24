@@ -1,0 +1,31 @@
+2025-11-19 11:54:59,751 - main - INFO - 🚀 Real Estate AI System Initialized
+2025-11-19 11:54:59,752 - main - INFO - 🔧 Loading existing models...
+2025-11-19 11:54:59,752 - src.embedding.vector_store - WARNING - ⚠️ Index file not found: models/vector_store.faiss
+2025-11-19 11:54:59,753 - main - ERROR - ❌ Could not load existing vector store
+2025-11-19 11:54:59,755 - main - INFO - 📊 Setting up data processing...
+2025-11-19 11:54:59,755 - src.data_processing.jsonl_processor - ERROR - Error loading JSONL data: [Errno 2] No such file or directory: 'data/raw/sample_rera_projects.jsonl'
+2025-11-19 11:54:59,756 - main - ERROR - ❌ No data loaded
+2025-11-19 11:54:59,800 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.105:5000
+2025-11-19 11:54:59,801 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-19 11:54:59,805 - werkzeug - INFO -  * Restarting with stat
+2025-11-19 11:55:05,153 - main - INFO - 🚀 Real Estate AI System Initialized
+2025-11-19 11:55:05,153 - main - INFO - 🔧 Loading existing models...
+2025-11-19 11:55:05,154 - src.embedding.vector_store - WARNING - ⚠️ Index file not found: models/vector_store.faiss
+2025-11-19 11:55:05,154 - main - ERROR - ❌ Could not load existing vector store
+2025-11-19 11:55:05,154 - main - INFO - 📊 Setting up data processing...
+2025-11-19 11:55:05,155 - src.data_processing.jsonl_processor - ERROR - Error loading JSONL data: [Errno 2] No such file or directory: 'data/raw/sample_rera_projects.jsonl'
+2025-11-19 11:55:05,155 - main - ERROR - ❌ No data loaded
+2025-11-19 11:55:05,184 - werkzeug - WARNING -  * Debugger is active!
+2025-11-19 11:55:05,188 - werkzeug - INFO -  * Debugger PIN: 638-470-377
+2025-11-19 11:55:14,539 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 11:55:14] "GET / HTTP/1.1" 200 -
+2025-11-19 11:55:14,647 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 11:55:14] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-11-19 11:55:14,773 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 11:55:14] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-11-19 11:55:15,203 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 11:55:15] "GET /api/system_status HTTP/1.1" 200 -
+2025-11-19 11:55:20,368 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 11:55:20] "GET / HTTP/1.1" 200 -
+2025-11-19 11:55:20,672 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 11:55:20] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-11-19 11:55:20,768 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 11:55:20] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-11-19 11:55:21,095 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 11:55:21] "GET /api/system_status HTTP/1.1" 200 -
+2025-11-19 11:55:25,723 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 11:55:25] "GET /chat HTTP/1.1" 200 -
