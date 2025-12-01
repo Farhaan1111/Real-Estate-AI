@@ -322,7 +322,3 @@ Main routes:
 - More advanced geo-spatial visualizations  
 
 ---
-
-# 📝 License
-
-MIT License (or update as required)
